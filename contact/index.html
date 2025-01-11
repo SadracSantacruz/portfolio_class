@@ -4,23 +4,37 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Contact</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <h1>Contact</h1>
     <nav>
-      <a href="/">Home</a>
-      <a href="contact/index.html">Contact</a>
-      <a href="projects/index.html">Projects</a>
-      <a href="https://github.com/SadracSantacruz" target="_blank">GitHub</a>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="contact/index.html">Contact</a></li>
+        <li><a href="projects/index.html">Projects</a></li>
+        <li>
+          <a href="https://github.com/SadracSantacruz" target="_blank"
+            >GitHub</a
+          >
+        </li>
+      </ul>
     </nav>
     <form
       action="mailto:sadrac.santacruz@gmail.com"
       method="post"
       enctype="text/plain"
     >
-      <label><input type="email" name="email" id="" /></label>
-      <label><input type="text" name="subject" id="" /></label>
-      <label><textarea name="body"></textarea></label>
-      <button type="submit"></button>
+      <label for="email">Your Email:</label>
+      <input type="email" name="email" id="email" required />
+
+      <label for="subject">Subject:</label>
+      <input type="text" name="subject" id="subject" required />
+
+      <label for="body">Message:</label>
+      <textarea name="body" id="body" rows="5" required></textarea>
+
+      <button type="submit">Send</button>
     </form>
   </body>
 </html>
