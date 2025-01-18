@@ -1,37 +1,151 @@
+:root {
+  --color-accent: oklch(70% 40% 150);
+  --color-accent-fallback: #2e8b57;
+}
+
+input,
+textarea,
+button {
+  font: inherit;
+}
+
+html {
+  accent-color: var(--color-accent, var(--color-accent-fallback));
+}
+
 body {
-  /* Set line height to 1.5 times the font size
-	   and use the OS’s UI font as the website font
-	 */
   font: 100%/1.5 system-ui;
   max-width: 110ch;
   margin-inline: max(1em, (100% - 100ch) / 2);
 }
 
-.img-cointainer {
-  display: grid;
-  place-items: center;
+.img-container {
+  display: flex;
+  justify-content: center;
 }
 
 .img {
-  /* margin-left: auto;
-  margin-right: auto; */
   width: 50%;
   border-radius: 50%;
 }
 
-/* This is the nav bar  */
-.current {
+nav {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  margin-bottom: 1em;
+  border-bottom: 1px solid oklch(80% 3% 200);
+}
 
-  ul {
-    display: flex;
-    gap: 1em;
-    list-style: none;
-  }
+nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0.3em;
+  padding: 0;
+  width: 100%;
+}
 
-  a {
-    flex: 1;
-  }
+nav li {
+  flex: 1;
+  text-align: center;
+}
+
+nav a {
+  text-decoration: none;
+  color: inherit;
+  padding: 0.5em 2em;
+  transition: background-color 0.3s, border-bottom-color 0.3s;
+}
+
+nav a.current {
+  border-bottom: 0.4em solid var(--color-accent);
+  padding-bottom: 0.1em;
+}
+
+nav a:hover {
+  border-bottom: 0.4em solid var(--color-accent);
+  background-color: oklch(from var(--color-accent) 95% 5% h);
+  border-radius: 0.3em;
+}
+
+/* Contact Form Page  */
+
+#contact-form {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1em;
+  max-width: 600px;
+  margin: 2em auto;
+}
+
+#contact-form label {
+  text-align: right;
+  padding-right: 1em;
+  font-weight: bold;
+}
+
+#contact-form input,
+#contact-form textarea {
+  width: 100%;
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#contact-form button {
+  grid-column: 1 / -1;
+  padding: 0.75em;
+  background-color: var(--color-accent, #2e8b57);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+}
+
+#contact-form button:hover {
+  background-color: #267a4c;
+}
+
+#contact-form input:focus,
+#contact-form textarea:focus {
+  outline: 2px solid var(--color-accent, #2e8b57);
+}
+
+/* Projects Section */
+.projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
+  gap: 1em;
+  margin: em auto;
+  max-width: 1100px;
+  padding: 1em;
+}
+
+.projects article {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1em;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.projects article img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 1em;
+}
+
+.project article h2 {
+  font-size: 1.2em;
+  margin-bottom: 0.5em;
+}
+
+.projects article {
+  font-size: 0.9em;
+  color: #555;
 }
