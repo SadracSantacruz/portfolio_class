@@ -3,4 +3,35 @@ body {
 	   and use the OS’s UI font as the website font
 	 */
   font: 100%/1.5 system-ui;
+  max-width: 110ch;
+  margin-inline: max(1em, (100% - 100ch) / 2);
+}
+
+.img-cointainer {
+  display: grid;
+  place-items: center;
+}
+
+.img {
+  /* margin-left: auto;
+  margin-right: auto; */
+  width: 50%;
+  border-radius: 50%;
+}
+
+/* This is the nav bar  */
+.current {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  ul {
+    display: flex;
+    gap: 1em;
+    list-style: none;
+  }
+
+  a {
+    flex: 1;
+  }
 }
