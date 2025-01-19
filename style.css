@@ -9,6 +9,37 @@ button {
   font: inherit;
 }
 
+/* consistent with all headings  */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: 4rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 0.5em;
+
+  border-bottom: 2px sold var(--color-accent, #2e8b57);
+  padding-bottom: 0.1em;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0.5em 0;
+  color: #333;
+
+  border-left: 4px solid var(--color-accent, #2e8b57);
+  padding-left: 0.5em;
+}
+
 html {
   accent-color: var(--color-accent, var(--color-accent-fallback));
 }
@@ -116,16 +147,21 @@ nav a:hover {
 }
 
 /* Projects Section */
+
 .projects {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
   gap: 1em;
-  margin: em auto;
+  margin: 2em auto;
   max-width: 1100px;
   padding: 1em;
+  align-items: stretch;
 }
 
 .projects article {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 3;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -134,18 +170,61 @@ nav a:hover {
   text-align: center;
 }
 
-.projects article img {
-  max-width: 100%;
-  height: auto;
-  margin-bottom: 1em;
-}
-
 .project article h2 {
+  margin: 0;
   font-size: 1.2em;
   margin-bottom: 0.5em;
 }
 
-.projects article {
+.projects article img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 1em;
+  border-radius: 4px;
+}
+
+.projects article p {
   font-size: 0.9em;
   color: #555;
+}
+
+.project {
+  gap: 1.5em;
+}
+
+/* Resume page */
+
+.links {
+  display: flex;
+  justify-content: center;
+  gap: 3em;
+}
+
+.links p a {
+  color: var(--color-accent, #2e8b57);
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+  transition: color 0.3s;
+}
+
+.links p a::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-accent, #2e8b57);
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+.links p a:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+footer a {
+  text-decoration: none;
+  color: var(--color-accent, #2e8b57);
 }
