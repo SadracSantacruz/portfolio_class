@@ -37,5 +37,26 @@
         alt="Sadrac Santacruz"
       />
     </div>
+    <body>
+      <div class="background-shapes">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+        <div class="shape shape3"></div>
+      </div>
+      <script>
+        document.addEventListener('scroll', moveShapes);
+        window.addEventListener('resize', moveShapes);
+  
+        function moveShapes() {
+          const shapes = document.querySelectorAll('.shape');
+          const scrollY = window.scrollY;
+          const innerHeight = window.innerHeight;
+  
+          shapes.forEach((shape, index) => {
+            const speed = (index + 1) * 0.05;
+            shape.style.transform = `translateY(${scrollY * speed}px)`;
+          });
+        }
+      </script>
   </body>
 </html>
