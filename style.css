@@ -232,12 +232,6 @@ footer a {
 }
 /* ########################## */
 
-body {
-  /* margin: 0;
-  padding: 0; */
-  overflow-x: hidden;
-}
-
 .background-shapes {
   position: fixed;
   top: 0;
@@ -257,7 +251,7 @@ body {
 .shape1 {
   width: 200px;
   height: 200px;
-  background-color: #ff6347;
+  background-color: #2e8b57;
   top: 10%;
   left: 20%;
 }
@@ -265,7 +259,7 @@ body {
 .shape2 {
   width: 300px;
   height: 300px;
-  background-color: #4682b4;
+  background-color: #2e8b57;
   top: 50%;
   left: 70%;
 }
@@ -273,7 +267,7 @@ body {
 .shape3 {
   width: 150px;
   height: 150px;
-  background-color: #32cd32;
+  background-color: #2e8b57;
   top: 80%;
   left: 30%;
 }
