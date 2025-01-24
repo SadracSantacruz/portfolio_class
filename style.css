@@ -1,6 +1,7 @@
 :root {
   --color-accent: oklch(70% 40% 150);
   --color-accent-fallback: #2e8b57;
+  --background-color: #f0f4f8;
 }
 
 input,
@@ -26,7 +27,8 @@ h1 {
   text-align: center;
   margin-bottom: 0.5em;
 
-  border-bottom: 2px solid var(--color-accent, #2e8b57);
+  /* border-bottom: 2px solid var(--color-accent, #2e8b57); */
+  border-bottom: 1.5px solid rgb(112, 108, 108);
   padding-bottom: 0.1em;
 }
 
@@ -48,15 +50,31 @@ body {
   font: 100%/1.5 system-ui;
   max-width: 110ch;
   margin-inline: max(1em, (100% - 100ch) / 2);
+  background-color: var(--background-color);
+}
+
+body p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f9f9f9;
+  padding: 1em;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 1em auto;
 }
 
 .img-container {
   display: flex;
   justify-content: center;
+  padding: 1em;
 }
 
 .img {
   width: 50%;
+  min-width: 60%;
+  max-width: 80%;
   border-radius: 50%;
 }
 
