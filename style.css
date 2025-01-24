@@ -74,11 +74,13 @@ nav ul {
   margin: 0.3em;
   padding: 0;
   width: 100%;
+  flex-wrap: wrap;
 }
 
 nav li {
   flex: 1;
   text-align: center;
+  min-width: 100px;
 }
 
 nav a {
