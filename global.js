@@ -4,11 +4,11 @@ const ARE_WE_HOME = document.documentElement.classList.contains("home");
 
 // Links to all the pages
 const pages = [
-  { url: "", title: "Home" },
-  { url: "projects/", title: "Projects" },
-  { url: "contact/", title: "Contact" },
-  { url: "resume/", title: "Resume" },
-  { url: "https://github.com/SadracSantacruz", title: "GitHub" },
+  { url: "", title: "Home", class: "home" },
+  { url: "projects/", title: "Projects", class: "projects" },
+  { url: "resume/", title: "Resume", class: "resume" },
+  { url: "contact/", title: "Contact", class: "contact" },
+  { url: "https://github.com/SadracSantacruz", title: "GitHub", class: null },
 ];
 
 const nav = document.createElement("nav");
