@@ -20,23 +20,19 @@ for (let page of pages) {
 
   url = !ARE_WE_HOME && !url.startsWith("http") ? "../" + url : url;
 
-  // Create the <a> element
   const a = document.createElement("a");
   a.href = url;
   a.textContent = title;
 
-  // Highlight the current page
   a.classList.toggle(
     "current",
     a.host === location.host && a.pathname === location.pathname
   );
 
-  // Open external links in a new tab
   if (a.host !== location.host) {
     a.target = "_blank";
   }
 
-  // Add the <a> element to the <nav>
   nav.append(a);
 }
 
