@@ -1,16 +1,9 @@
 :root {
   --color-accent: oklch(70% 40% 150);
   --color-accent-fallback: #2e8b57;
-  /* --background-color: #f0f4f8; */
+  --background-color: canvas;
 }
 
-input,
-textarea,
-button {
-  font: inherit;
-}
-
-/* consistent with all headings  */
 h1,
 h2,
 h3,
@@ -26,25 +19,23 @@ h1 {
   font-weight: bold;
   text-align: center;
   margin-bottom: 0.5em;
-  /* I did not really liked this line so i removed it */
-  /* border-bottom: 2px solid var(--color-accent, #2e8b57); */
-  /* border-bottom: 1.5px solid rgb(112, 108, 108); */
+  color: var(--color-accent);
   padding-bottom: 0.1em;
+  text-shadow: canvas 1px 1px;
 }
 
 h2 {
   font-size: 1.5rem;
   font-weight: bold;
   margin: 0.5em 0;
-  color: #333;
-
+  color: canvastext;
   border-left: 4px solid var(--color-accent, #2e8b57);
   padding-left: 0.5em;
 }
 
 html {
   accent-color: var(--color-accent, var(--color-accent-fallback));
-  color-scheme: dark;
+  color-scheme: light dark;
 }
 
 body {
@@ -52,18 +43,56 @@ body {
   max-width: 110ch;
   margin-inline: max(1em, (100% - 100ch) / 2);
   background-color: var(--background-color);
+  color: canvastext;
 }
 
 body p {
   font-size: 1.2rem;
   line-height: 1.6;
-  color: #333;
-  background-color: #f9f9f9;
+  color: canvastext;
+  background-color: canvas;
   padding: 1em;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   max-width: 800px;
   margin: 1em auto;
+}
+
+.color-scheme {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 80%;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  background-color: var(--background-color);
+  padding: 0.5em 0.75em;
+  border-radius: 5px;
+  border: 1px solid var(--color-accent);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.color-scheme select {
+  font: inherit;
+  padding: 0.2em 0.5em;
+  border-radius: 5px;
+  border: 1px solid var(--color-accent);
+  background-color: var(--background-color);
+  color: inherit;
+  cursor: pointer;
+}
+
+.color-scheme select:focus {
+  outline: 2px solid var(--color-accent);
+}
+
+input,
+textarea,
+button {
+  font: inherit;
 }
 
 @keyframes pop-in {
@@ -135,11 +164,12 @@ body p {
 
 /* Navbar */
 nav {
+  --border-color: oklch(50% 10% 200 / 40%); /* Adaptive border color */
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 1em;
-  border-bottom: 1px solid oklch(80% 3% 200);
+  border-bottom: 1px solid var(--border-color);
   gap: 2em;
   padding: 0.5em 1em;
 }
@@ -161,7 +191,7 @@ nav a.current {
 }
 
 nav a:hover {
-  background-color: oklch(from var(--color-accent) 95% 5% h);
+  background-color: color-mix(in oklch, var(--color-accent), canvas 85%);
   border-radius: 0.3em;
   transform: scale(1.05);
 }
@@ -229,8 +259,8 @@ nav a:hover {
   display: grid;
   grid-template-rows: subgrid;
   grid-row: span 3;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  background-color: canvas;
+  border: 1px solid var(--color-accent);
   border-radius: 8px;
   padding: 1em;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -252,7 +282,7 @@ nav a:hover {
 
 .projects article p {
   font-size: 0.9em;
-  color: #555;
+  color: canvastext;
 }
 
 .project {
@@ -282,7 +312,7 @@ nav a:hover {
   left: 50%;
   width: 0;
   height: 2px;
-  background-color: var(--color-accent, #2e8b57);
+  background-color: var(--color-accent);
   transition: width 0.3s ease, left 0.3s ease;
 }
 
@@ -293,7 +323,7 @@ nav a:hover {
 
 footer a {
   text-decoration: none;
-  color: var(--color-accent, #2e8b57);
+  color: var(--color-accent);
 }
 /* ########################## */
 .background-shapes {
@@ -311,4 +341,15 @@ footer a {
   border-radius: 50%;
   opacity: 0.7;
   animation: pop-in 1s ease-out;
+}
+
+@keyframes pop-in {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }

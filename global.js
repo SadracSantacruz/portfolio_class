@@ -34,48 +34,82 @@ for (let page of pages) {
   // Open external links in a new tab
   if (a.host !== location.host) {
     a.target = "_blank";
-    a.rel = "noopener noreferrer"; // For security -- Chat Recommended
   }
 
   // Add the <a> element to the <nav>
   nav.append(a);
 }
 
+document.body.insertAdjacentHTML(
+  "afterbegin",
+  `
+    <label class="color-scheme">
+      Theme:
+      <select id="theme-select">
+        <option value="light dark">Automatic</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+    </label>
+  `
+);
+
+const select = document.getElementById("theme-select");
+const root = document.documentElement;
+
+
+const savedTheme = localStorage.getItem("colorScheme") || "light dark";
+root.style.setProperty("color-scheme", savedTheme);
+select.value = savedTheme;
+
+
+select.addEventListener("input", (event) => {
+  const selectedTheme = event.target.value;
+  
+  root.style.setProperty("color-scheme", selectedTheme);
+
+  localStorage.setItem("colorScheme", selectedTheme);
+
+  console.log("Color scheme changed to:", selectedTheme);
+});
+
 // Setting up my circle background
 
-// create background shapes
+// shape generator
+function generateShapeConfig(numShapes, baseColor) {
+  const configs = [];
+  for (let i = 0; i < numShapes; i++) {
+    configs.push({
+      class: `shape${i + 1}`,
+      size: Math.random() * 150 + 100,
+      top: `${Math.random() * 80}%`, 
+      left: `${Math.random() * 80}%`, 
+      gradient: generateGradientColor(baseColor, 40 + i * 10),
+    });
+  }
+  return configs;
+}
+
 function generateGradientColor(baseColor, intensity) {
-  // Adjust the lightness of the base color
-  const lightness = Math.min(Math.max(intensity, 30), 90); // Clamp between 30% and 90%
+  const lightness = Math.min(Math.max(intensity, 30), 90); // Clamp lightness
   return `linear-gradient(to bottom right, ${baseColor}, hsl(147, 50%, ${lightness}%))`;
 }
 
-// create background shapes
-function createBackgroundShapes() {
+function createBackgroundShapes(numShapes = 5) {
+  const baseColor = "hsl(147, 50%, 50%)";
+  const shapeConfigs = generateShapeConfig(numShapes, baseColor);
+
   const backgroundContainer = document.createElement("div");
   backgroundContainer.className = "background-shapes";
 
-  const shapes = [
-    { class: "shape1", size: 200, top: "10%", left: "20%" },
-    { class: "shape2", size: 300, top: "50%", left: "70%" },
-    { class: "shape3", size: 150, top: "80%", left: "30%" },
-    { class: "shape4", size: 250, top: "15%", left: "50%" },
-    { class: "shape5", size: 180, top: "60%", left: "10%" },
-  ];
-
-  const baseColor = "hsl(147, 50%, 50%)"; // Green base color
-
-  shapes.forEach((shape, index) => {
+  shapeConfigs.forEach((shapeConfig) => {
     const div = document.createElement("div");
-    div.className = `shape ${shape.class}`;
-    div.style.width = `${shape.size}px`;
-    div.style.height = `${shape.size}px`;
-    div.style.top = shape.top;
-    div.style.left = shape.left;
-
-    // aply unique gradient based on the index
-    const gradient = generateGradientColor(baseColor, 40 + index * 10);
-    div.style.background = gradient;
+    div.className = `shape ${shapeConfig.class}`;
+    div.style.width = `${shapeConfig.size}px`;
+    div.style.height = `${shapeConfig.size}px`;
+    div.style.top = shapeConfig.top;
+    div.style.left = shapeConfig.left;
+    div.style.background = shapeConfig.gradient;
 
     backgroundContainer.appendChild(div);
   });
@@ -83,7 +117,6 @@ function createBackgroundShapes() {
   document.body.appendChild(backgroundContainer);
 }
 
-// handle shape movement
 function moveShapes() {
   const shapes = document.querySelectorAll(".shape");
   const scrollY = window.scrollY;
@@ -94,10 +127,9 @@ function moveShapes() {
   });
 }
 
-// Initialize shapes and event listeners
+// Initialize
 document.addEventListener("DOMContentLoaded", () => {
-  createBackgroundShapes();
-
+  createBackgroundShapes(25); // shape number
   document.addEventListener("scroll", moveShapes);
   window.addEventListener("resize", moveShapes);
 });
