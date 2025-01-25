@@ -295,7 +295,6 @@ footer a {
   color: var(--color-accent, #2e8b57);
 }
 /* ########################## */
-
 .background-shapes {
   position: fixed;
   top: 0;
@@ -304,38 +303,11 @@ footer a {
   height: 100%;
   z-index: -1;
   overflow: hidden;
-  /* animation: pop-in 0.6s ease-out; */
 }
 
 .shape {
   position: absolute;
   border-radius: 50%;
   opacity: 0.7;
-}
-
-.shape1 {
-  width: 200px;
-  height: 200px;
-  background-color: #2e8b57;
-  top: 10%;
-  left: 20%;
   animation: pop-in 1s ease-out;
-}
-
-.shape2 {
-  width: 300px;
-  height: 300px;
-  background-color: #2e8b57;
-  top: 50%;
-  left: 70%;
-  animation: pop-in 1.5s ease-out;
-}
-
-.shape3 {
-  width: 150px;
-  height: 150px;
-  background-color: #2e8b57;
-  top: 80%;
-  left: 30%;
-  animation: pop-in 2s ease-out;
 }
