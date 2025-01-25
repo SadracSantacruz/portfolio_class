@@ -57,20 +57,38 @@ document.body.insertAdjacentHTML(
 const select = document.getElementById("theme-select");
 const root = document.documentElement;
 
-
 const savedTheme = localStorage.getItem("colorScheme") || "light dark";
 root.style.setProperty("color-scheme", savedTheme);
 select.value = savedTheme;
 
-
 select.addEventListener("input", (event) => {
   const selectedTheme = event.target.value;
-  
+
   root.style.setProperty("color-scheme", selectedTheme);
 
   localStorage.setItem("colorScheme", selectedTheme);
 
   console.log("Color scheme changed to:", selectedTheme);
+});
+
+// Contact form
+const form = document.getElementById("contact-form");
+
+form?.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const data = new FormData(form);
+
+  let url = form.action + "?";
+
+  for (let [name, value] of data) {
+    url += `${encodeURIComponent(name)}=${encodeURIComponent(value)}&`;
+  }
+
+  url = url.slice(0, -1);
+  location.href = url;
+
+  console.log("Form submitted to:", url);
 });
 
 // Setting up my circle background
@@ -82,8 +100,8 @@ function generateShapeConfig(numShapes, baseColor) {
     configs.push({
       class: `shape${i + 1}`,
       size: Math.random() * 150 + 100,
-      top: `${Math.random() * 80}%`, 
-      left: `${Math.random() * 80}%`, 
+      top: `${Math.random() * 80}%`,
+      left: `${Math.random() * 80}%`,
       gradient: generateGradientColor(baseColor, 40 + i * 10),
     });
   }
