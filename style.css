@@ -1,7 +1,7 @@
 :root {
   --color-accent: oklch(70% 40% 150);
   --color-accent-fallback: #2e8b57;
-  --background-color: #f0f4f8;
+  /* --background-color: #f0f4f8; */
 }
 
 input,
@@ -44,6 +44,7 @@ h2 {
 
 html {
   accent-color: var(--color-accent, var(--color-accent-fallback));
+  color-scheme: dark;
 }
 
 body {

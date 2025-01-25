@@ -43,15 +43,14 @@ for (let page of pages) {
 
 // Setting up my circle background
 
-// Function to create background shapes
-// Function to generate a gradient color
+// create background shapes
 function generateGradientColor(baseColor, intensity) {
   // Adjust the lightness of the base color
   const lightness = Math.min(Math.max(intensity, 30), 90); // Clamp between 30% and 90%
   return `linear-gradient(to bottom right, ${baseColor}, hsl(147, 50%, ${lightness}%))`;
 }
 
-// Function to create background shapes
+// create background shapes
 function createBackgroundShapes() {
   const backgroundContainer = document.createElement("div");
   backgroundContainer.className = "background-shapes";
@@ -74,7 +73,7 @@ function createBackgroundShapes() {
     div.style.top = shape.top;
     div.style.left = shape.left;
 
-    // Apply unique gradient based on the index
+    // aply unique gradient based on the index
     const gradient = generateGradientColor(baseColor, 40 + index * 10);
     div.style.background = gradient;
 
@@ -84,7 +83,7 @@ function createBackgroundShapes() {
   document.body.appendChild(backgroundContainer);
 }
 
-// Function to handle shape movement
+// handle shape movement
 function moveShapes() {
   const shapes = document.querySelectorAll(".shape");
   const scrollY = window.scrollY;
