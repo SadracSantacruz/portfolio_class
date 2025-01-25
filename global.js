@@ -4,11 +4,11 @@ const ARE_WE_HOME = document.documentElement.classList.contains("home");
 
 // Links to all the pages
 const pages = [
-  { url: "", title: "Home", class: "home" },
-  { url: "projects/", title: "Projects", class: "projects" },
-  { url: "resume/", title: "Resume", class: "resume" },
-  { url: "contact/", title: "Contact", class: "contact" },
-  { url: "https://github.com/SadracSantacruz", title: "GitHub", class: null },
+  { url: "", title: "Home" },
+  { url: "projects/", title: "Projects" },
+  { url: "resume/", title: "Resume" },
+  { url: "contact/", title: "Contact" },
+  { url: "https://github.com/SadracSantacruz", title: "GitHub" },
 ];
 
 const nav = document.createElement("nav");
@@ -34,7 +34,7 @@ for (let page of pages) {
   // Open external links in a new tab
   if (a.host !== location.host) {
     a.target = "_blank";
-    a.rel = "noopener noreferrer"; // For security
+    a.rel = "noopener noreferrer"; // For security -- Chat Recommended
   }
 
   // Add the <a> element to the <nav>
