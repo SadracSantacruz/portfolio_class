@@ -256,15 +256,17 @@ nav a:hover {
 }
 
 .projects article {
-  display: grid;
-  grid-template-rows: subgrid;
-  grid-row: span 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Distributes content evenly */
   background-color: canvas;
   border: 1px solid var(--color-accent);
   border-radius: 8px;
   padding: 1em;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
+  height: 100%; /* Ensures consistent height */
+  overflow: hidden; /* Ensures no content overflows */
 }
 
 .project article h2 {
