@@ -247,10 +247,13 @@ nav a:hover {
 
 .projects {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
-  gap: 1em;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(300px, 1fr)
+  ); /* Increased min width */
+  gap: 2rem; /* Add more space between cards */
   margin: 2em auto;
-  max-width: 1100px;
+  max-width: 1200px; /* Ensure the grid container has a reasonable width */
   padding: 1em;
   align-items: stretch;
 }
@@ -258,28 +261,30 @@ nav a:hover {
 .projects article {
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Distributes content evenly */
+  justify-content: space-between;
   background-color: canvas;
   border: 1px solid var(--color-accent);
   border-radius: 8px;
   padding: 1em;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
-  height: 100%; /* Ensures consistent height */
-  overflow: hidden; /* Ensures no content overflows */
+  height: auto; /* Allow cards to adjust based on content */
+  min-height: 350px; /* Ensure a minimum height */
+  overflow: hidden;
+}
+
+.projects article img {
+  max-width: 90%; /* Limit image width */
+  height: auto; /* Maintain aspect ratio */
+  margin: 1em auto; /* Center the image */
+  border-radius: 6px; /* Add subtle rounding */
+  object-fit: cover; /* Prevent distortion */
 }
 
 .project article h2 {
   margin: 0;
   font-size: 1.2em;
   margin-bottom: 0.5em;
-}
-
-.projects article img {
-  max-width: 100%;
-  height: auto;
-  margin-bottom: 1em;
-  border-radius: 4px;
 }
 
 .projects article p {
@@ -289,6 +294,13 @@ nav a:hover {
 
 .project {
   gap: 1.5em;
+}
+
+@media (max-width: 600px) {
+  .projects {
+    grid-template-columns: 1fr; /* Single column layout */
+    gap: 1.5rem; /* Adjust gap for smaller screens */
+  }
 }
 
 /* Resume page */
