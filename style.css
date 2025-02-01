@@ -268,17 +268,17 @@ nav a:hover {
   padding: 1em;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
-  height: auto; /* Allow cards to adjust based on content */
-  min-height: 350px; /* Ensure a minimum height */
+  height: auto;
+  min-height: 350px;
   overflow: hidden;
 }
 
 .projects article img {
-  max-width: 90%; /* Limit image width */
-  height: auto; /* Maintain aspect ratio */
-  margin: 1em auto; /* Center the image */
-  border-radius: 6px; /* Add subtle rounding */
-  object-fit: cover; /* Prevent distortion */
+  max-width: 90%;
+  height: auto;
+  margin: 1em auto;
+  border-radius: 6px;
+  object-fit: cover;
 }
 
 .project article h2 {
@@ -298,8 +298,8 @@ nav a:hover {
 
 @media (max-width: 600px) {
   .projects {
-    grid-template-columns: 1fr; /* Single column layout */
-    gap: 1.5rem; /* Adjust gap for smaller screens */
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 }
 
