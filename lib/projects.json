@@ -1,62 +1,74 @@
 [
   {
-    "title": "Lorem ipsum dolor",
-    "image": "path/to/image.png",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    "title": "Vehicle Type Recognition Project",
+    "year": "2023",
+    "image": "https://via.placeholder.com/150",
+    "description": "Developed a system using machine learning techniques to classify vehicle types, achieving high accuracy."
   },
   {
-    "title": "Lorem ipsum dolor",
-    "image": "path/to/image.png",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    "title": "US Power Outage Analysis",
+    "year": "2022",
+    "image": "https://via.placeholder.com/150",
+    "description": "Predicted US power outage durations using Gradient Boosting Regressor and explored regional and climatic factors."
   },
   {
-    "title": "Lorem ipsum dolor",
-    "image": "path/to/image.png",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    "title": "Weather Project",
+    "year": "2023",
+    "image": "https://via.placeholder.com/150",
+    "description": "Built an interactive Node.js application to provide real-time weather updates with dynamic images."
   },
   {
-    "title": "Lorem ipsum dolor",
-    "image": "path/to/image.png",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    "title": "CSE Website Development",
+    "year": "2024",
+    "image": "https://via.placeholder.com/150",
+    "description": "Enhanced website responsiveness and added an interactive countdown feature for better user engagement."
   },
   {
-    "title": "Lorem ipsum dolor",
-    "image": "path/to/image.png",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    "title": "Spotify Data Analysis",
+    "year": "2022",
+    "image": "https://via.placeholder.com/150",
+    "description": "Analyzed Spotify data to uncover genre popularity trends and key correlations in music consumption."
   },
   {
-    "title": "Lorem ipsum dolor",
-    "image": "path/to/image.png",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    "title": "Ifoods Marketing Data Analysis",
+    "year": "2023",
+    "image": "https://via.placeholder.com/150",
+    "description": "Led exploratory data analysis on customer spending patterns and built predictive models to analyze behavior."
   },
   {
-    "title": "Lorem ipsum dolor",
-    "image": "path/to/image.png",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    "title": "Car Price Analysis",
+    "year": "2022",
+    "image": "https://via.placeholder.com/150",
+    "description": "Developed predictive models using Random Forest and Linear Regression to analyze car pricing trends."
   },
   {
-    "title": "Lorem ipsum dolor",
-    "image": "path/to/image.png",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    "title": "Assignment Tool Generator",
+    "year": "2024",
+    "image": "https://via.placeholder.com/150",
+    "description": "Built a Flask website showcasing an AI model using RAG to dynamically generate assignments."
   },
   {
-    "title": "Lorem ipsum dolor",
-    "image": "path/to/image.png",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    "title": "AI Student Collective Website",
+    "year": "2024",
+    "image": "https://via.placeholder.com/150",
+    "description": "Designed navigation and smooth transitions for a website using React and TypeScript."
   },
   {
-    "title": "Lorem ipsum dolor",
-    "image": "path/to/image.png",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    "title": "Language Preservation Lab",
+    "year": "2023",
+    "image": "https://via.placeholder.com/150",
+    "description": "Applied NLP models and processed 50 GB of language data to create a Hawaiian predictive model."
   },
   {
-    "title": "Lorem ipsum dolor",
-    "image": "path/to/image.png",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    "title": "Language Acquisition Lab",
+    "year": "2023",
+    "image": "https://via.placeholder.com/150",
+    "description": "Transcribed audio to text using Whisper and evaluated model performance for speech-to-text tasks."
   },
   {
-    "title": "Lorem ipsum dolor",
-    "image": "path/to/image.png",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    "title": "ENVISION Embedded Systems",
+    "year": "2023",
+    "image": "https://via.placeholder.com/150",
+    "description": "Developed an IR beam breaker and a Bluetooth speaker using ESP32 for embedded system projects."
   }
 ]
