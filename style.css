@@ -2,6 +2,8 @@
   --color-accent: oklch(70% 40% 150);
   --color-accent-fallback: #2e8b57;
   --background-color: canvas;
+  --legend-bg-color: rgba(255, 255, 255, 0.8); /* Light theme background */
+  --legend-text-color: #000; /* Light theme text */
 }
 
 h1,
@@ -308,7 +310,15 @@ nav a:hover {
 .links {
   display: flex;
   justify-content: center;
-  gap: 3em;
+  gap: 2em;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  text-align: center;
+  max-width: 100%; /* Ensure it does not overflow */
+}
+
+.links p {
+  margin: 0; /* Remove default margins */
+  padding: 0.5em 1em; /* Add some padding */
 }
 
 .links p a {
@@ -426,5 +436,68 @@ footer a {
 
   .github-stats-container img {
     margin-bottom: 1em;
+  }
+}
+/* Chart Container */
+/* Chart Container */
+
+.chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  gap: 1em;
+  max-width: 1100px;
+  padding: 1rem;
+}
+
+#projects-plot {
+  width: 300px; /* Fixed chart size */
+  height: 300px; /* Maintain a square shape */
+  aspect-ratio: 1 / 1; /* Ensure it's perfectly square */
+  flex-shrink: 0; /* Prevent the chart from shrinking */
+}
+
+.swatch {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background-color: var(--color);
+}
+
+.legend {
+  display: flex; /* Use flex for row layout */
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+  justify-content: center; /* Center the legend items */
+  gap: 1em; /* Space between items */
+  list-style: none; /* Remove default bullets */
+  padding: 1.5em; /* Remove padding */
+  margin: 1em auto; /* Remove margin */
+  background-color: canvas; /* Darker transparent background */
+  border-radius: 15px; /* Softer rounded corners */
+  box-shadow: 0 6px 12px oklab(lightness a b); /* Add depth with shadow */
+  max-width: 1000px; /* Restrict maximum width */
+}
+
+.legend li {
+  display: flex; /* Flexbox for alignment within list items */
+  align-items: center; /* Align swatch and text vertically */
+  gap: 0.5em; /* Space between swatch and text */
+  font-size: 1rem; /* Standardize font size */
+  background-color: color-mix(
+    in oklch,
+    canvas,
+    var(--color-accent) 5%
+  ); /* Slightly stronger background */
+  padding: 0.7em 1em; /* Add spacing inside items */
+  border-radius: 10px; /* Rounded corners for items */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth hover effect */
+}
+
+@media (max-width: 600px) {
+  .legend li {
+    font-size: 0.9em; /* Reduce font size for smaller screens */
   }
 }

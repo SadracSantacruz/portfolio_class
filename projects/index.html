@@ -7,10 +7,21 @@
     <link rel="stylesheet" href="../style.css" />
     <script src="global.js" type="module"></script>
     <script src="projects.js" type="module"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
   </head>
   <body>
     <h1 class="projects-title">Projects</h1>
+    <!-- Chart and Legend Section -->
+    <div class="chart-container">
+      <!-- Pie Chart -->
+      <svg id="projects-plot" viewBox="-50 -50 100 100"></svg>
+      <!-- Legend -->
+      <ul class="legend">
+        <!-- Legend items will be dynamically generated here -->
+      </ul>
+    </div>
 
+    <!-- Projects Grid -->
     <div class="projects"></div>
   </body>
 </html>
