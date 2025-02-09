@@ -452,8 +452,8 @@ footer a {
 }
 
 #projects-plot {
-  width: 300px; /* Fixed chart size */
-  height: 300px; /* Maintain a square shape */
+  width: 500px; /* Fixed chart size */
+  height: 500px; /* Maintain a square shape */
   aspect-ratio: 1 / 1; /* Ensure it's perfectly square */
   flex-shrink: 0; /* Prevent the chart from shrinking */
 }
