@@ -501,3 +501,37 @@ footer a {
     font-size: 0.9em; /* Reduce font size for smaller screens */
   }
 }
+
+/* Wokring on interaction */
+path {
+  cursor: pointer;
+  transition: 300ms;
+}
+
+path.selected {
+  stroke: black;
+  stroke-width: 2;
+}
+
+path:hover {
+  opacity: 0.7;
+}
+
+.legend li.selected {
+  font-weight: bold;
+  background-color: var(--color-accent);
+  color: white;
+}
+
+svg:has(path:hover) path:not(:hover) {
+  opacity: 0.5;
+}
+
+.searchBar {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  padding: 1em;
+  width: 100%;
+  max-width: 600px;
+}
