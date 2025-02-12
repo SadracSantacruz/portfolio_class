@@ -59,14 +59,12 @@ function renderPieChart(projectsGiven) {
       // Reset opacity for all slices
       svg.selectAll("path").style("opacity", 1);
     })
-    .on("click", function (_, idx) {
-      selectedIndex = selectedIndex === idx ? -1 : idx; // Toggle selection
-
-      if (selectedIndex !== -1) {
-        const selectedYear = data[selectedIndex].label; // Get the year for the clicked slice
+    .on("click", function (event, d) {
+      const selectedYear = d.data.label; // Get the year for the clicked slice
+      if (selectedYear) {
         const yearFilteredProjects = projects.filter(
           (project) => project.year === selectedYear
-        ); // Filter projects based on the selected year
+        );
 
         // Re-render the filtered projects
         const projectsContainer = document.querySelector(".projects");
@@ -99,6 +97,7 @@ function renderPieChart(projectsGiven) {
       .append("li")
       .attr("style", `--color:${colors(idx)}`)
       .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`)
+
       .on("click", () => {
         selectedIndex = selectedIndex === idx ? -1 : idx; // Toggle selection
 
