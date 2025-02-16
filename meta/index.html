@@ -5,13 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Meta</title>
     <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="meta_style.css" />
+    <!-- New stylesheet -->
     <script src="../global.js" type="module"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="main.js" type="module"></script>
   </head>
   <body>
     <h1>Meta</h1>
-    <p>Hello</p>
-    <div id="stats"></div>
+
+    <!-- Wrapped stats in a div for proper positioning -->
+    <div id="meta-stats-container">
+      <div id="stats"></div>
+    </div>
+
+    <h2>Commits by time of day</h2>
+    <div id="chart"></div>
   </body>
 </html>

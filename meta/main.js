@@ -56,55 +56,171 @@ function displayStats() {
   // Process commits to get stats
   processCommits();
 
-  // Create a dl element to display stats
-  const dl = d3.select("#stats").append("dl").attr("class", "stats");
+  // Ensure the stats container exists and is styled
+  const statsContainer = d3
+    .select("#stats") // Keeping `stats` ID
+    .append("div")
+    .attr("class", "stats"); // Apply new styling
 
-  // Add the total LOC
-  dl.append("dt").html('Total <abbr title="Lines of Code">LOC</abbr>');
-  dl.append("dd").text(data.length);
+  // Function to append styled stat blocks
+  function addStat(label, value) {
+    const statBlock = statsContainer.append("div").attr("class", "stat-block");
 
-  // Add the total commits
-  dl.append("dt").text("Total commits");
-  dl.append("dd").text(commits.length);
+    statBlock.append("dt").html(label);
+    statBlock.append("dd").text(value);
+  }
 
-  // 1 Number of distinct files
+  // Add stats
+  addStat('Total <abbr title="Lines of Code">LOC</abbr>', data.length);
+  addStat("Total commits", commits.length);
+
+  // 1️⃣ Number of distinct files
   const numFiles = d3.groups(data, (d) => d.file).length;
-  dl.append("dt").text("Number of distinct files");
-  dl.append("dd").text(numFiles);
+  addStat("Number of distinct files", numFiles);
 
-  // 2️ Maximum file length (in lines)
+  // 2️⃣ Maximum file length (in lines)
   const maxFileLength = d3.max(data, (d) => d.line);
-  dl.append("dt").text("Maximum file length (lines)");
-  dl.append("dd").text(maxFileLength);
+  addStat("Maximum file length (lines)", maxFileLength);
 
-  // 3️ Average file length (in lines)
+  // 3️⃣ Average file length (in lines)
   const fileLengths = d3.rollups(
     data,
     (v) => d3.max(v, (d) => d.line),
     (d) => d.file
   );
   const avgFileLength = d3.mean(fileLengths, (d) => d[1]);
-  dl.append("dt").text("Average file length (lines)");
-  dl.append("dd").text(avgFileLength.toFixed(2));
+  addStat("Average file length (lines)", avgFileLength.toFixed(2));
 
-  // 4 Most active time of day
+  // 4️⃣ Most active time of day
   const workByPeriod = d3.rollups(
     data,
     (v) => v.length,
     (d) => new Date(d.datetime).toLocaleString("en", { dayPeriod: "short" })
   );
   const maxPeriod = d3.greatest(workByPeriod, (d) => d[1])?.[0]; // Most frequent period
-  dl.append("dt").text("Most active time of day");
-  dl.append("dd").text(maxPeriod);
+  addStat("Most active time of day", maxPeriod);
 
   console.log("✅ Stats should now be displayed.");
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
-  console.log("✅ DOM Loaded. Now loading data...");
-  await loadData(); // Load CSV data
-  console.log("✅ Data loaded:", data.length, "rows.");
+function createScatterplot() {
+  console.log("✅ Creating Scatterplot...");
 
+  // Set up SVG dimensions
+  const width = 1000;
+  const height = 600;
+  const margin = { top: 10, right: 10, bottom: 50, left: 50 }; // Increased bottom margin
+
+  // Compute usable area
+  const usableArea = {
+    top: margin.top,
+    right: width - margin.right,
+    bottom: height - margin.bottom,
+    left: margin.left,
+    width: width - margin.left - margin.right,
+    height: height - margin.top - margin.bottom,
+  };
+
+  d3.select("#chart").selectAll("*").remove(); // Clear previous SVG if it exists
+
+  const svg = d3
+    .select("#chart")
+    .append("svg")
+    .attr("viewBox", `0 0 ${width} ${height}`)
+    .style("overflow", "visible");
+
+  // 🎨 **Add Background to Scatterplot**
+  svg
+    .append("rect")
+    .attr("x", usableArea.left)
+    .attr("y", usableArea.top)
+    .attr("width", usableArea.width)
+    .attr("height", usableArea.height)
+    .attr("fill", "rgba(255, 255, 255, 0.3)") // Light translucent background
+    .attr("rx", 10); // Rounded corners for smooth aesthetics
+
+  // Define Scales with margins
+  const xScale = d3
+    .scaleTime()
+    .domain(d3.extent(commits, (d) => d.datetime))
+    .range([usableArea.left, usableArea.right]) // Adjusted for margins
+    .nice();
+
+  const yScale = d3
+    .scaleLinear()
+    .domain([0, 24])
+    .range([usableArea.bottom, usableArea.top]); // Adjusted for margins
+
+  // **Add Gridlines BEFORE axes**
+  const gridlines = svg
+    .append("g")
+    .attr("class", "gridlines")
+    .attr("transform", `translate(${usableArea.left}, 0)`);
+  gridlines.call(
+    d3.axisLeft(yScale).tickFormat("").tickSize(-usableArea.width)
+  );
+
+  // 🎯 **Draw Dots with Higher Contrast**
+  svg
+    .append("g")
+    .attr("class", "dots")
+    .selectAll("circle")
+    .data(commits)
+    .join("circle")
+    .attr("cx", (d) => xScale(d.datetime))
+    .attr("cy", (d) => yScale(d.hourFrac))
+    .attr("r", 6) // Slightly larger for visibility
+    .attr("fill", "#007AFF") // Higher contrast blue
+    .attr("stroke", "white") // White outline for better contrast
+    .attr("stroke-width", 1);
+
+  // Create the axes
+  const xAxis = d3.axisBottom(xScale);
+  const yAxis = d3
+    .axisLeft(yScale)
+    .tickFormat((d) => String(d % 24).padStart(2, "0") + ":00"); // Format Y axis
+
+  // **Add X Axis**
+  svg
+    .append("g")
+    .attr("transform", `translate(0, ${usableArea.bottom})`)
+    .call(xAxis);
+
+  // **Add Y Axis**
+  svg
+    .append("g")
+    .attr("transform", `translate(${usableArea.left}, 0)`)
+    .call(yAxis);
+
+  // **Fix X-Axis Label Position**
+  svg
+    .append("text")
+    .attr("x", width / 2)
+    .attr("y", height - 15) // Moved lower for visibility
+    .style("text-anchor", "middle")
+    .style("font-weight", "bold")
+    .text("Date");
+
+  // **Fix Y-Axis Label Position**
+  svg
+    .append("text")
+    .attr("x", -height / 2)
+    .attr("y", 15)
+    .attr("transform", "rotate(-90)")
+    .style("text-anchor", "middle")
+    .style("font-weight", "bold")
+    .text("Time of Day");
+
+  console.log("✅ Scatterplot rendered.");
+}
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadData(); // Load CSV data
   processCommits(); // Process commits
   displayStats();
+
+  if (commits.length > 0) {
+    createScatterplot(); // Create scatterplot if commits exist
+  } else {
+    console.warn("⚠️ No commits found. Cannot create scatterplot.");
+  }
 });

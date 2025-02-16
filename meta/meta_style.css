@@ -1,0 +1,81 @@
+/* Meta Page Stats Section */
+#meta-stats-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+  max-width: 100%;
+}
+
+/* Stats Container (Uses Theme Variables) */
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  background: var(--stats-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  max-width: 900px;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+/* Individual Stat Block */
+.stat-block {
+  text-align: center;
+  padding: 20px;
+  flex: 1 1 150px;
+  background: var(--stat-block-bg);
+  border-radius: 10px;
+  margin: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.stat-block:hover {
+  background: var(--stat-block-hover);
+  transform: scale(1.05);
+}
+
+/* Stat Labels */
+.stat-block dt {
+  font-weight: bold;
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+/* Stat Values */
+.stat-block dd {
+  font-size: 32px;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin: 5px 0 0;
+}
+
+/* Dark and Light Theme Variables */
+:root {
+  --stats-bg: rgba(30, 30, 30, 0.9);
+  --stat-block-bg: rgba(50, 50, 50, 0.9);
+  --stat-block-hover: rgba(80, 80, 80, 1);
+  --text-primary: #fff;
+  --text-secondary: #ccc;
+}
+
+/* Light Theme */
+.light-theme {
+  --stats-bg: rgba(255, 255, 255, 0.95);
+  --stat-block-bg: rgba(230, 230, 230, 0.95);
+  --stat-block-hover: rgba(210, 210, 210, 1);
+  --text-primary: #000;
+  --text-secondary: #666;
+}
+
+/* Dark Theme */
+.dark-theme {
+  --stats-bg: rgba(20, 20, 20, 0.95);
+  --stat-block-bg: rgba(40, 40, 40, 0.95);
+  --stat-block-hover: rgba(70, 70, 70, 1);
+  --text-primary: #fff;
+  --text-secondary: #ddd;
+}
