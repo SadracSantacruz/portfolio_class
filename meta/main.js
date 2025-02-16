@@ -266,7 +266,7 @@ function createScatterplot() {
     .domain([0, 24])
     .range([usableArea.bottom, usableArea.top]);
 
-  // **Fixing Area Perception: Square Root Scale**
+  // Fixing Area Perception: Square Root Scale
   const [minLines, maxLines] = d3.extent(commits, (d) => d.totalLines);
   const rScale = d3
     .scaleSqrt() // ✅ Switched from linear to square root scale
@@ -279,12 +279,12 @@ function createScatterplot() {
     .attr("transform", `translate(${usableArea.left}, 0)`)
     .call(d3.axisLeft(yScale).tickFormat("").tickSize(-usableArea.width));
 
-  // **✅ Corrected Sorting: Sort before binding data**
+  // Sort before binding data
   const sortedCommits = commits
     .slice()
     .sort((a, b) => b.totalLines - a.totalLines);
 
-  // **Draw Dots with Scaled Size & Hover Effects**
+  // Draw Dots with Scaled Size & Hover Effects
   svg
     .append("g")
     .attr("class", "dots")
@@ -293,7 +293,7 @@ function createScatterplot() {
     .join("circle")
     .attr("cx", (d) => xScale(d.datetime))
     .attr("cy", (d) => yScale(d.hourFrac))
-    .attr("r", (d) => rScale(d.totalLines)) // **Corrected dot size perception**
+    .attr("r", (d) => rScale(d.totalLines)) // Corrected dot size perception
     .attr("fill", "var(--dot-color)")
     .attr("stroke", "var(--dot-outline)")
     .attr("stroke-width", 1)
