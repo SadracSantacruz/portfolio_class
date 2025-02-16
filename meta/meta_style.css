@@ -35,8 +35,8 @@
 .stat-block:hover {
   background: var(--stat-block-hover);
   transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2); /* Soft glow effect */
 }
-
 /* Stat Labels */
 .stat-block dt {
   font-weight: bold;
@@ -53,29 +53,75 @@
   margin: 5px 0 0;
 }
 
-/* Dark and Light Theme Variables */
+/* Tooltip Styling */
+.tooltip {
+  position: absolute;
+  background: rgba(30, 30, 30, 0.85); /* Dark mode-friendly semi-transparent */
+  color: white;
+  padding: 0.8em 1.2em;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25); /* Soft elevation */
+  backdrop-filter: blur(8px); /* Frosted glass effect */
+  opacity: 0; /* Initially hidden */
+  transition: opacity 0.2s ease-in-out, transform 0.15s ease-in-out;
+  pointer-events: none; /* Prevents interference */
+  z-index: 1000; /* Ensures it appears above everything */
+}
+
+/* Tooltip Grid Layout */
+dl.info {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.4em 1em;
+}
+
+/* Tooltip Labels */
+dl.info dt {
+  font-weight: bold;
+  font-size: 0.85rem;
+  color: #bbb;
+}
+
+/* Tooltip Values */
+dl.info dd {
+  margin: 0;
+  font-size: 1rem;
+  color: white;
+}
+
+/* Dot Hover Effect */
+circle {
+  transition: transform 200ms ease-in-out;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+circle:hover {
+  transform: scale(1.5);
+  fill: var(--dot-hover-color); /* Light up on hover */
+  stroke: white;
+  stroke-width: 2px;
+}
+/* Light and Dark Mode Variables */
 :root {
-  --stats-bg: rgba(30, 30, 30, 0.9);
-  --stat-block-bg: rgba(50, 50, 50, 0.9);
-  --stat-block-hover: rgba(80, 80, 80, 1);
-  --text-primary: #fff;
-  --text-secondary: #ccc;
+  --chart-bg: rgba(255, 255, 255, 0.3);
+  --dot-color: #007aff;
+  --dot-outline: white;
+  --axis-text: black;
 }
 
 /* Light Theme */
 .light-theme {
-  --stats-bg: rgba(255, 255, 255, 0.95);
-  --stat-block-bg: rgba(230, 230, 230, 0.95);
-  --stat-block-hover: rgba(210, 210, 210, 1);
-  --text-primary: #000;
-  --text-secondary: #666;
+  --chart-bg: rgba(255, 255, 255, 0.3);
+  --dot-color: #007aff;
+  --dot-outline: white;
+  --axis-text: black;
 }
 
 /* Dark Theme */
 .dark-theme {
-  --stats-bg: rgba(20, 20, 20, 0.95);
-  --stat-block-bg: rgba(40, 40, 40, 0.95);
-  --stat-block-hover: rgba(70, 70, 70, 1);
-  --text-primary: #fff;
-  --text-secondary: #ddd;
+  --chart-bg: rgba(30, 30, 30, 0.9);
+  --dot-color: #66ccff;
+  --dot-outline: white;
+  --axis-text: white;
 }

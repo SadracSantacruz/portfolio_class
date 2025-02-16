@@ -136,7 +136,7 @@ function createScatterplot() {
     .attr("y", usableArea.top)
     .attr("width", usableArea.width)
     .attr("height", usableArea.height)
-    .attr("fill", "rgba(255, 255, 255, 0.3)") // Light translucent background
+    .attr("fill", "var(--chart-bg)") // Dynamic background color
     .attr("rx", 10); // Rounded corners for smooth aesthetics
 
   // Define Scales with margins
@@ -161,6 +161,7 @@ function createScatterplot() {
   );
 
   // 🎯 **Draw Dots with Higher Contrast**
+  // 🎯 **Draw Dots with Hover Events**
   svg
     .append("g")
     .attr("class", "dots")
@@ -170,9 +171,25 @@ function createScatterplot() {
     .attr("cx", (d) => xScale(d.datetime))
     .attr("cy", (d) => yScale(d.hourFrac))
     .attr("r", 6) // Slightly larger for visibility
-    .attr("fill", "#007AFF") // Higher contrast blue
-    .attr("stroke", "white") // White outline for better contrast
-    .attr("stroke-width", 1);
+    .attr("fill", "var(--dot-color)") // Dynamic dot color
+    .attr("stroke", "var(--dot-outline)") // Dynamic outline
+    .attr("stroke-width", 1)
+    .on("mouseenter", function (event, commit) {
+      updateTooltipContent(commit);
+      d3.select("#commit-tooltip")
+        .style("opacity", "1")
+        .style("top", `${event.pageY - 30}px`)
+        .style("left", `${event.pageX + 15}px`);
+    })
+    .on("mousemove", function (event) {
+      d3.select("#commit-tooltip")
+        .style("top", `${event.pageY - 30}px`)
+        .style("left", `${event.pageX + 15}px`);
+    })
+    .on("mouseleave", function () {
+      updateTooltipContent({}); // Clear tooltip content
+      d3.select("#commit-tooltip").style("opacity", "0");
+    });
 
   // Create the axes
   const xAxis = d3.axisBottom(xScale);
@@ -184,13 +201,15 @@ function createScatterplot() {
   svg
     .append("g")
     .attr("transform", `translate(0, ${usableArea.bottom})`)
-    .call(xAxis);
+    .call(xAxis)
+    .attr("color", "var(--axis-text)");
 
   // **Add Y Axis**
   svg
     .append("g")
     .attr("transform", `translate(${usableArea.left}, 0)`)
-    .call(yAxis);
+    .call(yAxis)
+    .attr("color", "var(--axis-text)");
 
   // **Fix X-Axis Label Position**
   svg
@@ -199,6 +218,7 @@ function createScatterplot() {
     .attr("y", height - 15) // Moved lower for visibility
     .style("text-anchor", "middle")
     .style("font-weight", "bold")
+    .attr("fill", "var(--axis-text)") // Dynamically change text color
     .text("Date");
 
   // **Fix Y-Axis Label Position**
@@ -209,10 +229,42 @@ function createScatterplot() {
     .attr("transform", "rotate(-90)")
     .style("text-anchor", "middle")
     .style("font-weight", "bold")
+    .attr("fill", "var(--axis-text)") // Dynamically change text color
     .text("Time of Day");
 
   console.log("✅ Scatterplot rendered.");
 }
+
+function updateTooltipContent(commit) {
+  const link = document.getElementById("commit-link");
+  const date = document.getElementById("commit-date");
+  const time = document.getElementById("commit-time");
+  const author = document.getElementById("commit-author");
+  const lines = document.getElementById("commit-lines");
+
+  if (!commit || Object.keys(commit).length === 0) {
+    document.getElementById("commit-tooltip").style.opacity = "0"; // Hide tooltip
+    return;
+  }
+
+  link.href = commit.url;
+  link.textContent = commit.id;
+  date.textContent = commit.datetime?.toLocaleDateString("en", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+  time.textContent = commit.datetime?.toLocaleTimeString("en", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  author.textContent = commit.author;
+  lines.textContent = commit.totalLines;
+
+  document.getElementById("commit-tooltip").style.opacity = "1"; // Show tooltip
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   await loadData(); // Load CSV data
   processCommits(); // Process commits
