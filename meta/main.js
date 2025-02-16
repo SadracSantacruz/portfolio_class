@@ -4,7 +4,7 @@ let brushSelection = null;
 let xScale, yScale;
 
 async function loadData() {
-  data = await d3.csv("loc.csv", (row) => ({
+  data = await d3.csv("./loc.csv", (row) => ({
     ...row,
     line: +row.line,
     depth: +row.depth,
