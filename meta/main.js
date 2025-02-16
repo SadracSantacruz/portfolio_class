@@ -50,8 +50,61 @@ function processCommits() {
     });
 }
 
+function displayStats() {
+  console.log("✅ displayStats() is running...");
+
+  // Process commits to get stats
+  processCommits();
+
+  // Create a dl element to display stats
+  const dl = d3.select("#stats").append("dl").attr("class", "stats");
+
+  // Add the total LOC
+  dl.append("dt").html('Total <abbr title="Lines of Code">LOC</abbr>');
+  dl.append("dd").text(data.length);
+
+  // Add the total commits
+  dl.append("dt").text("Total commits");
+  dl.append("dd").text(commits.length);
+
+  // 1 Number of distinct files
+  const numFiles = d3.groups(data, (d) => d.file).length;
+  dl.append("dt").text("Number of distinct files");
+  dl.append("dd").text(numFiles);
+
+  // 2️ Maximum file length (in lines)
+  const maxFileLength = d3.max(data, (d) => d.line);
+  dl.append("dt").text("Maximum file length (lines)");
+  dl.append("dd").text(maxFileLength);
+
+  // 3️ Average file length (in lines)
+  const fileLengths = d3.rollups(
+    data,
+    (v) => d3.max(v, (d) => d.line),
+    (d) => d.file
+  );
+  const avgFileLength = d3.mean(fileLengths, (d) => d[1]);
+  dl.append("dt").text("Average file length (lines)");
+  dl.append("dd").text(avgFileLength.toFixed(2));
+
+  // 4 Most active time of day
+  const workByPeriod = d3.rollups(
+    data,
+    (v) => v.length,
+    (d) => new Date(d.datetime).toLocaleString("en", { dayPeriod: "short" })
+  );
+  const maxPeriod = d3.greatest(workByPeriod, (d) => d[1])?.[0]; // Most frequent period
+  dl.append("dt").text("Most active time of day");
+  dl.append("dd").text(maxPeriod);
+
+  console.log("✅ Stats should now be displayed.");
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
+  console.log("✅ DOM Loaded. Now loading data...");
   await loadData(); // Load CSV data
+  console.log("✅ Data loaded:", data.length, "rows.");
+
   processCommits(); // Process commits
-  console.log(commits); // Check processed commit data
+  displayStats();
 });
