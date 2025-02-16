@@ -1,4 +1,26 @@
-/* Meta Page Stats Section */
+/* 📌 Light and Dark Mode Variables */
+:root {
+  --chart-bg: rgba(255, 255, 255, 0.3);
+  --dot-color: #007aff;
+  --dot-outline: white;
+  --axis-text: black;
+}
+
+.light-theme {
+  --chart-bg: rgba(255, 255, 255, 0.3);
+  --dot-color: #007aff;
+  --dot-outline: white;
+  --axis-text: black;
+}
+
+.dark-theme {
+  --chart-bg: rgba(30, 30, 30, 0.9);
+  --dot-color: #66ccff;
+  --dot-outline: white;
+  --axis-text: white;
+}
+
+/* 📌 Meta Page Stats Section */
 #meta-stats-container {
   display: flex;
   justify-content: center;
@@ -7,12 +29,12 @@
   max-width: 100%;
 }
 
-/* Stats Container (Uses Theme Variables) */
+/* 📌 Stats Container */
 .stats {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  background: var(--stats-bg);
+  background: var(--chart-bg);
   padding: 1.5rem;
   border-radius: 12px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
@@ -21,75 +43,73 @@
   transition: background-color 0.3s ease;
 }
 
-/* Individual Stat Block */
+/* 📌 Individual Stat Block */
 .stat-block {
   text-align: center;
   padding: 20px;
   flex: 1 1 150px;
-  background: var(--stat-block-bg);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 10px;
   margin: 10px;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .stat-block:hover {
-  background: var(--stat-block-hover);
+  background: rgba(255, 255, 255, 0.3);
   transform: scale(1.05);
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2); /* Soft glow effect */
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
 }
-/* Stat Labels */
+
+/* 📌 Stat Labels & Values */
 .stat-block dt {
   font-weight: bold;
   font-size: 14px;
-  color: var(--text-secondary);
   text-transform: uppercase;
+  color: var(--axis-text);
 }
 
-/* Stat Values */
 .stat-block dd {
   font-size: 32px;
   font-weight: bold;
-  color: var(--text-primary);
   margin: 5px 0 0;
+  color: var(--dot-color);
 }
 
-/* Tooltip Styling */
+/* 📌 Tooltip Styling */
 .tooltip {
   position: absolute;
-  background: rgba(30, 30, 30, 0.85); /* Dark mode-friendly semi-transparent */
+  background: rgba(30, 30, 30, 0.85);
   color: white;
   padding: 0.8em 1.2em;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25); /* Soft elevation */
-  backdrop-filter: blur(8px); /* Frosted glass effect */
-  opacity: 0; /* Initially hidden */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
+  opacity: 0;
   transition: opacity 0.2s ease-in-out, transform 0.15s ease-in-out;
-  pointer-events: none; /* Prevents interference */
-  z-index: 1000; /* Ensures it appears above everything */
+  pointer-events: none;
+  z-index: 1000;
 }
 
-/* Tooltip Grid Layout */
+/* 📌 Tooltip Grid Layout */
 dl.info {
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 0.4em 1em;
 }
 
-/* Tooltip Labels */
 dl.info dt {
   font-weight: bold;
   font-size: 0.85rem;
   color: #bbb;
 }
 
-/* Tooltip Values */
 dl.info dd {
   margin: 0;
   font-size: 1rem;
   color: white;
 }
 
-/* Dot Hover Effect */
+/* 📌 Dots & Hover Effects */
 circle {
   transition: transform 200ms ease-in-out;
   transform-origin: center;
@@ -98,30 +118,85 @@ circle {
 
 circle:hover {
   transform: scale(1.5);
-  fill: var(--dot-hover-color); /* Light up on hover */
   stroke: white;
   stroke-width: 2px;
 }
-/* Light and Dark Mode Variables */
-:root {
-  --chart-bg: rgba(255, 255, 255, 0.3);
-  --dot-color: #007aff;
-  --dot-outline: white;
-  --axis-text: black;
+
+/* 📌 Selected Dots */
+circle.selected {
+  fill: #ff6b6b !important;
+  stroke: black !important;
+  stroke-width: 2;
 }
 
-/* Light Theme */
-.light-theme {
-  --chart-bg: rgba(255, 255, 255, 0.3);
-  --dot-color: #007aff;
-  --dot-outline: white;
-  --axis-text: black;
+/* 📌 Brush Selection Box */
+.selection {
+  fill-opacity: 0.1;
+  stroke: black;
+  stroke-opacity: 0.7;
+  stroke-dasharray: 5 3;
+  animation: marching-ants 2s linear infinite;
 }
 
-/* Dark Theme */
-.dark-theme {
-  --chart-bg: rgba(30, 30, 30, 0.9);
-  --dot-color: #66ccff;
-  --dot-outline: white;
-  --axis-text: white;
+@keyframes marching-ants {
+  to {
+    stroke-dashoffset: -8;
+  }
+}
+
+/* 📌 Selection Count */
+#selection-count {
+  font-size: 14px;
+  color: #333;
+  text-align: center;
+  margin-top: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: inline-block;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* 📌 Commit Details - Row Layout */
+#selection-details {
+  font-size: 14px;
+  color: #333;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  margin-top: 10px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.commit-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* ✅ Centers cards when wrapping */
+  gap: 15px;
+  padding: 10px;
+}
+
+/* 📌 Commit Card */
+.commit-card {
+  min-width: 220px;
+  padding: 10px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+
+.commit-card:hover {
+  transform: scale(1.05);
+}
+
+/* 📌 Commit Header */
+.commit-header {
+  font-weight: bold;
+  color: #007aff;
+  margin-bottom: 5px;
 }
