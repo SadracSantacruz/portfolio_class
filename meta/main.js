@@ -266,7 +266,7 @@ function createScatterplot() {
     .domain([0, 24])
     .range([usableArea.bottom, usableArea.top]);
 
-  // Fixing Area Perception: Square Root Scale
+  // **Fixing Area Perception: Square Root Scale**
   const [minLines, maxLines] = d3.extent(commits, (d) => d.totalLines);
   const rScale = d3
     .scaleSqrt() // ✅ Switched from linear to square root scale
