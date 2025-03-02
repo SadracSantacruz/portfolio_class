@@ -1,7 +1,8 @@
 let data = [];
 let commits = [];
-let brushSelection = null;
+// let brushSelection = null;
 let xScale, yScale;
+let selectedCommits = new Set();
 
 async function loadData() {
   data = await d3.csv("./loc.csv", (row) => ({
@@ -17,38 +18,44 @@ async function loadData() {
 }
 
 function processCommits() {
-  commits = d3
-    .groups(data, (d) => d.commit)
-    .map(([commit, lines]) => {
-      if (!lines.length) return null;
+  commits = Array.from(
+    d3
+      .rollup(
+        data,
+        (lines) => {
+          if (!lines.length) return null;
 
-      let first = lines[0];
-      if (!first) return null;
-      let { author, date, time, timezone, datetime } = first;
+          let first = lines[0];
+          if (!first) return null;
+          let { author, date, time, timezone, datetime } = first;
 
-      let ret = {
-        id: commit,
-        url: `https://github.com/YOUR_REPO/commit/${commit}`,
-        author,
-        date,
-        time,
-        timezone,
-        datetime,
-        hourFrac: datetime
-          ? datetime.getHours() + datetime.getMinutes() / 60
-          : null,
-        totalLines: lines.length,
-      };
+          let ret = {
+            id: lines[0].commit, // Commit ID
+            url: `https://github.com/YOUR_REPO/commit/${lines[0].commit}`,
+            author,
+            date,
+            time,
+            timezone,
+            datetime,
+            hourFrac: datetime
+              ? datetime.getHours() + datetime.getMinutes() / 60
+              : null,
+            totalLines: lines.length,
+          };
 
-      Object.defineProperty(ret, "lines", {
-        value: lines,
-        enumerable: false,
-        configurable: false,
-        writable: false,
-      });
+          Object.defineProperty(ret, "lines", {
+            value: lines,
+            enumerable: false,
+            configurable: false,
+            writable: false,
+          });
 
-      return ret;
-    });
+          return ret;
+        },
+        (d) => d.commit
+      )
+      .values()
+  );
 }
 
 function updateSelectionDetails(selectedCommits) {
@@ -58,15 +65,14 @@ function updateSelectionDetails(selectedCommits) {
     return;
   }
 
-  // Clear previous selection details
   container.innerHTML = "";
 
-  if (selectedCommits.length === 0) {
+  if (selectedCommits.size === 0) {
+    // ✅ Fix .length -> .size
     container.innerHTML = "<p>No commits selected</p>";
     return;
   }
 
-  // Create a horizontal container for selected commits
   const rowContainer = document.createElement("div");
   rowContainer.classList.add("commit-row");
 
@@ -80,10 +86,14 @@ function updateSelectionDetails(selectedCommits) {
       commit.id
     }</a>
       </div>
-      <div><strong>Date:</strong> ${commit.datetime.toLocaleDateString()}</div>
-      <div><strong>Time:</strong> ${commit.datetime.toLocaleTimeString()}</div>
-      <div><strong>Author:</strong> ${commit.author}</div>
-      <div><strong>Lines Edited:</strong> ${commit.totalLines}</div>
+      <div><strong>Date:</strong> ${
+        commit.datetime?.toLocaleDateString() || "N/A"
+      }</div>
+      <div><strong>Time:</strong> ${
+        commit.datetime?.toLocaleTimeString() || "N/A"
+      }</div>
+      <div><strong>Author:</strong> ${commit.author || "Unknown"}</div>
+      <div><strong>Lines Edited:</strong> ${commit.totalLines || "0"}</div>
     `;
 
     rowContainer.appendChild(commitCard);
@@ -93,22 +103,13 @@ function updateSelectionDetails(selectedCommits) {
 }
 
 function updateSelectionCount() {
-  const selectedCommits = brushSelection
-    ? commits.filter(isCommitSelected)
-    : [];
-
   const countElement = document.getElementById("selection-count");
-  countElement.textContent = `${
-    selectedCommits.length || "No"
-  } commits selected`;
 
-  // Display commit details in the log
-  console.log("Selected Commits:", selectedCommits);
+  countElement.textContent = `${selectedCommits.size || "No"} commits selected`;
 
-  // Update the selection details UI
+  console.log("Selected Commits:", Array.from(selectedCommits));
+
   updateSelectionDetails(selectedCommits);
-
-  return selectedCommits;
 }
 
 function displayStats() {
@@ -158,56 +159,87 @@ function displayStats() {
   );
 }
 
-function brushed(event) {
-  if (!event.selection) {
-    brushSelection = null;
-    updateSelection();
-    updateSelectionCount();
+function handleMouseEvents() {
+  d3.selectAll(".commit")
+    .on("mouseenter", function (event, d) {
+      d3.select(this).classed("hovered", true);
+    })
+    .on("mouseleave", function (event, d) {
+      d3.select(this).classed("hovered", false);
+    });
+}
+
+function updateVisuals() {
+  console.log("🔄 Updating visuals...");
+
+  d3.selectAll(".dots circle") // ✅ Select all circles inside .dots
+    .classed("selected", (d) => selectedCommits.has(d));
+
+  console.log(
+    "✔ Visuals updated: Selected commits:",
+    Array.from(selectedCommits)
+  );
+}
+
+function brushed(evt) {
+  const selection = evt.selection; // Get the selection from brush event
+
+  if (!selection) {
+    selectedCommits.clear();
+    updateVisuals(); // Ensure visuals update
+    updateSelectionDetails(selectedCommits);
     return;
   }
 
-  brushSelection = event.selection;
-  updateSelection();
-  updateSelectionCount(); // 🔹 Ensure this updates!
+  const [[minX, minY], [maxX, maxY]] = selection; // Extract bounding box
+
+  selectedCommits.clear(); // Clear previous selection
+
+  commits.forEach((commit) => {
+    const x = xScale(commit.date);
+    const y = yScale(commit.hourFrac);
+    if (x >= minX && x <= maxX && y >= minY && y <= maxY) {
+      selectedCommits.add(commit);
+    }
+  });
+
+  updateVisuals(); // Update dots' visual states
+  updateSelectionDetails(selectedCommits); // Update the selection info
+  updateLanguageBreakdown(); // Ensure the breakdown updates
 }
 
 function isCommitSelected(commit) {
-  if (!brushSelection) {
-    return false;
-  }
-
-  const [[x0, y0], [x1, y1]] = brushSelection;
-  const cx = xScale(commit.datetime);
-  const cy = yScale(commit.hourFrac);
-
-  return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;
+  return selectedCommits.has(commit);
 }
 
 function updateSelection() {
   // Update visual state of dots based on selection
   d3.selectAll(".dots circle").classed("selected", (d) => isCommitSelected(d));
 }
-function updateLanguageBreakdown() {
-  const selectedCommits = brushSelection
-    ? commits.filter(isCommitSelected)
-    : [];
-  const container = document.getElementById("language-breakdown");
 
-  if (selectedCommits.length === 0) {
-    container.innerHTML = "";
+function updateLanguageBreakdown() {
+  const container = document.getElementById("language-breakdown");
+  if (!container) return;
+
+  if (selectedCommits.size === 0) {
+    container.innerHTML = "<p>No commits selected</p>";
     return;
   }
-  const requiredCommits = selectedCommits.length ? selectedCommits : commits;
-  const lines = requiredCommits.flatMap((d) => d.lines);
 
-  // Use d3.rollup to count lines per language
+  const selectedCommitsArray = Array.from(selectedCommits);
+  const lines = selectedCommitsArray.flatMap((d) => d.lines || []); // ✅ Handle missing `lines`
+
+  if (lines.length === 0) {
+    container.innerHTML = "<p>No language data available</p>";
+    return;
+  }
+
   const breakdown = d3.rollup(
     lines,
     (v) => v.length,
-    (d) => d.type
+    (d) => d.type || "Unknown" // ✅ Handle undefined `type`
   );
 
-  // Update DOM with breakdown
   container.innerHTML = "";
 
   for (const [language, count] of breakdown) {
@@ -219,8 +251,6 @@ function updateLanguageBreakdown() {
             <dd>${count} lines (${formatted})</dd>
         `;
   }
-
-  return breakdown;
 }
 
 function createScatterplot() {
@@ -289,8 +319,9 @@ function createScatterplot() {
     .append("g")
     .attr("class", "dots")
     .selectAll("circle")
-    .data(sortedCommits) // ✅ Use sorted data
+    .data(sortedCommits)
     .join("circle")
+    .attr("class", "commit") // ✅ Add class so updateVisuals() can select it
     .attr("cx", (d) => xScale(d.datetime))
     .attr("cy", (d) => yScale(d.hourFrac))
     .attr("r", (d) => rScale(d.totalLines)) // Corrected dot size perception
@@ -316,7 +347,9 @@ function createScatterplot() {
       [usableArea.left, usableArea.top],
       [usableArea.right, usableArea.bottom],
     ])
-    .on("brush end", brushed);
+    .on("brush end", brushed); // ✅ Attach event
+
+  svg.append("g").attr("class", "brush").call(brush);
 
   const brushGroup = svg.append("g").attr("class", "brush").call(brush);
   brushGroup.raise(); // 🔹 Ensures brush is on top
@@ -402,7 +435,6 @@ function updateTooltipPosition(event) {
 document.addEventListener("DOMContentLoaded", async () => {
   await loadData();
   processCommits();
-  displayStats();
 
   if (commits.length > 0) {
     createScatterplot();

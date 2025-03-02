@@ -171,6 +171,12 @@ circle.selected {
   white-space: nowrap;
 }
 
+.commit.selected {
+  stroke: yellow !important;
+  stroke-width: 3px;
+  fill-opacity: 1 !important;
+}
+
 .commit-row {
   display: flex;
   flex-wrap: wrap;
